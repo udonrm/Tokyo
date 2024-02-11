@@ -12,6 +12,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Home() {
   const [songs, setSongs] = useState([]);
@@ -38,35 +39,45 @@ export default function Home() {
       <video className=" h-full w-full" autoPlay muted loop>
         <source src="Tokyo.mp4" type="video/mp4" />
       </video>
-      <div className="m-8 grid grid-cols-1 place-items-center">
+      <div className="my-12 grid grid-cols-1 place-items-center">
         {songs.map((song, index) => (
           <div key={index}>
-            <p>
-              {/* {song.name} - {song.artists.map((artist) => artist.name).join(", ")} */}
-              <img src={song.album.images[0].url} className="translate-x-6" />
+            <div className="flex justify-center m-6">
               <Drawer>
-                <DrawerTrigger>Check This Song</DrawerTrigger>
+                <DrawerTrigger>
+                  <div className="transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 drop-shadow-4xl">
+                    <img src={song.album.images[0].url} />
+                  </div>
+                </DrawerTrigger>
                 <DrawerContent>
-                  <DrawerHeader>
-                    <DrawerTitle>{song.artists.name}</DrawerTitle>
+                  <DrawerHeader className="place-content-center">
+                    <DrawerTitle>{song.name}</DrawerTitle>
                     <DrawerDescription>
-                      This action cannot be undone.
+                      {song.artists[0].name}
+                      <img
+                        src={song.album.images[1].url}
+                        className="drop-shadow-4xl mb-10"
+                      />
+                      {song.preview_url ? (
+                        <audio controls src={song.preview_url}></audio>
+                      ) : (
+                        <div />
+                      )}
                     </DrawerDescription>
                   </DrawerHeader>
                   <DrawerFooter>
-                    <Button>open</Button>
+                    <Button>
+                      <Link href={song.external_urls.spotify}>
+                        Open in Spotify
+                      </Link>
+                    </Button>
                     <DrawerClose>
                       <Button variant="outline">Cancel</Button>
                     </DrawerClose>
                   </DrawerFooter>
                 </DrawerContent>
               </Drawer>
-            </p>
-            {song.preview_url ? (
-              <audio controls src={song.preview_url}></audio>
-            ) : (
-              <div />
-            )}
+            </div>
           </div>
         ))}
       </div>

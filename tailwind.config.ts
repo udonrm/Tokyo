@@ -18,6 +18,12 @@ const config = {
       },
     },
     extend: {
+      dropShadow: {
+        "4xl": [
+          "0 35px 35px rgba(0, 0, 0, 0.6)",
+          "0 45px 65px rgba(0, 0, 0, 0.00)",
+        ],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

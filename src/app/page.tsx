@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getToken, searchTracks } from "./api/spotify/route";
 import {
   Drawer,
@@ -18,6 +18,16 @@ import Loading from "./loading";
 export default function Home() {
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const AudioPlayer = ({ src }) => {
+    const audioRef = useRef(null);
+
+    useEffect(() => {
+      if (audioRef.current) {
+        audioRef.current.volume = 0.1;
+      }
+    }, []);
+    return <audio controls src={src} ref={audioRef}></audio>;
+  };
 
   useEffect(() => {
     const fetchTokyoSongs = async () => {
@@ -40,6 +50,8 @@ export default function Home() {
     return <Loading />;
   }
 
+  console.log(songs);
+
   return (
     <>
       <video
@@ -49,7 +61,6 @@ export default function Home() {
         loop
       >
         <source src="Tokyo.mp4" type="video/mp4" />
-        <p>haikei</p>
       </video>
       <div className="my-12 grid grid-cols-1 place-items-center">
         {songs.map((song, index) => (
@@ -71,7 +82,7 @@ export default function Home() {
                         className="drop-shadow-4xl mb-10"
                       />
                       {song.preview_url ? (
-                        <audio controls src={song.preview_url}></audio>
+                        <AudioPlayer src={song.preview_url} />
                       ) : (
                         <div />
                       )}

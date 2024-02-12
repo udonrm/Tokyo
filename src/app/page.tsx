@@ -13,9 +13,11 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Loading from "./loading";
 
 export default function Home() {
   const [songs, setSongs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTokyoSongs = async () => {
@@ -27,17 +29,27 @@ export default function Home() {
         }
       } catch (e) {
         console.error(e);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchTokyoSongs();
+    setTimeout(fetchTokyoSongs, 3000);
   }, []);
 
-  console.log(songs);
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
-    <div>
-      <video className=" h-full w-full" autoPlay muted loop>
+    <>
+      <video
+        className="h-full w-full animate-fade animate-duration-[3000ms]"
+        autoPlay
+        muted
+        loop
+      >
         <source src="Tokyo.mp4" type="video/mp4" />
+        <p>haikei</p>
       </video>
       <div className="my-12 grid grid-cols-1 place-items-center">
         {songs.map((song, index) => (
@@ -81,6 +93,6 @@ export default function Home() {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 }

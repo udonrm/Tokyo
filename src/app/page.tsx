@@ -50,19 +50,20 @@ export default function Home() {
     return <Loading />;
   }
 
-  console.log(songs);
-
   return (
     <>
-      <video
-        className="h-full w-full animate-fade animate-duration-[3000ms]"
-        autoPlay
-        muted
-        loop
-      >
-        <source src="Tokyo.mp4" type="video/mp4" />
-      </video>
-      <div className="my-12 grid grid-cols-1 place-items-center">
+      <div className="relative w-full h-screen">
+        <video
+          className="absolute w-full h-full object-cover animate-fade animate-duration-[3000ms]"
+          autoPlay
+          muted
+          loop
+        >
+          <source src="Tokyo.mp4" type="video/mp4" />
+        </video>
+      </div>
+      {/* 動画以下の要素 */}
+      <div className="my-12 grid grid-cols-1 place-items-center  animate-fade animate-duration-[3000ms]">
         {songs.map((song, index) => (
           <div key={index}>
             <div className="flex justify-center m-6">

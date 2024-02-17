@@ -16,6 +16,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
 
 import { Button } from "@/components/ui/button";
@@ -77,19 +79,24 @@ export default function Home() {
               forceWheelAxis: "y",
             }),
           ]}
-          className="w-screen"
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full"
         >
           <CarouselContent className="slide">
             {songs.map((song, index) => (
-              <div key={index} className="flex-shrink-0 m-16">
+              <div key={index} className="flex-shrink-0 m-12">
                 <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                   <Drawer>
                     <DrawerTrigger>
                       <Image
                         className="transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 drop-shadow"
                         src={song.album.images[0].url}
-                        width="640"
-                        height="640"
+                        width={640}
+                        height={640}
+                        layout="responsive"
                         alt="ジャケット画像"
                         priority={false}
                       />
@@ -104,8 +111,8 @@ export default function Home() {
                           <Image
                             className="drop-shadow-4xl mb-10"
                             src={song.album.images[1].url}
-                            width="300"
-                            height="300"
+                            width={300}
+                            height={300}
                             alt="中サイズジャケット画像"
                           />
                           {song.preview_url ? (
@@ -131,6 +138,8 @@ export default function Home() {
               </div>
             ))}
           </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
         </Carousel>
       </div>
     </>

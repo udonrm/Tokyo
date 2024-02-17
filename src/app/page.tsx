@@ -58,8 +58,6 @@ export default function Home() {
     return <Loading />;
   }
 
-  console.log(songs);
-
   return (
     <>
       <div className="relative w-full h-screen overflow-y-scroll">
@@ -88,7 +86,7 @@ export default function Home() {
                   <Drawer>
                     <DrawerTrigger>
                       <Image
-                        className="transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 drop-shadow-4xl"
+                        className="transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 drop-shadow"
                         src={song.album.images[0].url}
                         width="640"
                         height="640"

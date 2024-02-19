@@ -23,12 +23,13 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Loading from "./loading";
 import Image from "next/image";
+import { Song, Src } from "@/types";
 
 export default function Home() {
-  const [songs, setSongs] = useState([]);
+  const [songs, setSongs] = useState<Song[]>([]);
   const [loading, setLoading] = useState(true);
-  const AudioPlayer = ({ src }) => {
-    const audioRef = useRef(null);
+  const AudioPlayer = ({ src }: Src) => {
+    const audioRef = useRef<HTMLAudioElement>(null);
 
     useEffect(() => {
       if (audioRef.current) {

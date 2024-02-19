@@ -1,7 +1,10 @@
-const client_id = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
-const client_secret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
+import { log } from "console";
+import { NextRequest } from "next/server";
 
-export const getToken = async () => {
+const client_id = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
+const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+
+export const POST = async () => {
   const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     body: new URLSearchParams({
@@ -15,18 +18,21 @@ export const getToken = async () => {
     },
   });
   const data = await response.json();
-  return await data.access_token;
+  return Response.json({ access_token: data.access_token });
 };
 
-export const searchTracks = async (access_token: string, query: string) => {
+export const GET = async (req: NextRequest) => {
+  const authHeader = req.headers.get("authorization");
+  const access_token = authHeader?.split(" ")[1];
   const response = await fetch(
     `https://api.spotify.com/v1/search?q=${encodeURIComponent(
-      query
+      "東京"
     )}&type=track&limit=50`,
     {
       method: "GET",
       headers: { Authorization: "Bearer " + access_token },
     }
   );
-  return await response.json();
+  const data = await response.json();
+  return Response.json(data);
 };

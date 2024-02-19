@@ -1,7 +1,7 @@
 "use client";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useEffect, useRef, useState } from "react";
-import { getToken, searchTracks } from "./api/spotify/route";
+import { POST, GET } from "./api/spotify/route";
 import {
   Drawer,
   DrawerClose,
@@ -42,10 +42,22 @@ export default function Home() {
   useEffect(() => {
     const fetchTokyoSongs = async () => {
       try {
-        const access_token = await getToken();
-        const songResponse = await searchTracks(access_token, "東京");
-        if (songResponse.tracks) {
-          setSongs(songResponse.tracks.items);
+        const token_response = await fetch("/api/spotify/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const tokenData = await token_response.json();
+        const access_token = tokenData.access_token;
+
+        const songResponse = await fetch("/api/spotify", {
+          method: "GET",
+          headers: { Authorization: "Bearer " + access_token },
+        });
+        const songData = await songResponse.json();
+        if (songData.tracks) {
+          setSongs(songData.tracks.items);
         }
       } catch (e) {
         console.error(e);

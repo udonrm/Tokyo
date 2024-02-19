@@ -1,7 +1,6 @@
 "use client";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { useEffect, useRef, useState } from "react";
-import { POST, GET } from "./api/spotify/route";
 import {
   Drawer,
   DrawerClose,
